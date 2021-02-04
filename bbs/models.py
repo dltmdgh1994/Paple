@@ -31,6 +31,10 @@ class Question(models.Model):
     def __str__(self):
         return self.q_content
 
+    def as_dict(self):
+        question_date = self.q_date.strftime('%Y-%m-%d')
+        return {'q_content': self.q_content, 'q_date': question_date}
+
 
 class Post(models.Model):
     post_id = models.BigAutoField(primary_key=True)
