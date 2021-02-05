@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Paple</title>
 
     <!-- jQuery를 이용하기 위해 CDN 방식을 이용 -->
     <script
@@ -70,6 +70,8 @@
     <!-- carousel_style.css -->
     <link href="/static/css/carousel_style.css" rel="stylesheet">
 
+    <script src="/static/js/main.js"></script>
+
 </head>
 <body>
     <!-- 상단 navbar -->
@@ -87,13 +89,14 @@
                 <a class="nav-link" href="#">심리 테스트</a>
               </li>
               <li class="nav-item p-2">
-                <a class="nav-link" href="#">내가 질문 올리기</a>
+                <a class="nav-link" href="/bbs/board/">그룹 게시판</a>
               </li>
               <li class="nav-item p-2">
                 <a class="nav-link" href="#">그룹 설정하기</a>
               </li>
             </ul>
-              <button class="btn btn-danger btn-lg" type="submit">Logout</button>
+              <button class="btn btn-danger btn-lg"
+                      type="submit" onclick="logout()">Logout</button>
           </div>
         </div>
       </nav>
