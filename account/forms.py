@@ -1,6 +1,7 @@
 from django import forms
 from account.models import Member
 
+
 class MemberJoinForm(forms.ModelForm):
     class Meta:
         model = Member

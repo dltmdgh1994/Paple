@@ -43,7 +43,7 @@ def login(request):
                 # request.session['loginObj'] = True
                 request.session['loginObj'] = getUser.user_email
                 # group이 있고없고 조건으로 나눠야 함
-                return render(request, 'bbs/main.html', {'message': '로그인 성공!'})
+                return redirect('/bbs/main/')
             else:
                 return render(request, 'account/login.html', {
                     'message': '비밀번호가 맞지 않습니다.',

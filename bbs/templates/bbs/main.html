@@ -9,6 +9,7 @@
             src="https://code.jquery.com/jquery-2.2.4.js"
             integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="
             crossorigin="anonymous">
+
     </script>
 
     <!-- Bootstrap을 이용하기 위해 CDN 방식을 이용-->
@@ -47,7 +48,7 @@
           let arr = []
           const q_list = "{{ q_list }}".replace(/&#39;/g, "\"")
           const questions = JSON.parse(q_list)
-          console.log(questions[0]['q_content'])
+
           for(let i = 0; i < questions.length; i++){
               arr.push({'title': questions[i]['q_content'], 'start': questions[i]['q_date']})
           }
