@@ -1,27 +1,27 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from account.models import Group
 from bbs.models import Question, Post
 from django.core.paginator import Paginator
+from django.contrib import auth
 
 
-# Create your views here.
 def main(request):
+    login_obj = request.session['loginObj']
     if request.method == "GET":
-        questions = Question.objects.all().order_by('q_date')
-        q_list = [q.as_dict() for q in questions]
-
-        return render(request, 'bbs/main.html', {'q_list': q_list})
-        # return redirect('/')
+        return render(request, 'index.html')
 
     elif request.method == "POST":
-        questions = Question.objects.all().order_by('q_date')
-        q_list = [q.as_dict() for q in questions]
+        if login_obj:
+            group_name = login_obj['group_name']
+            questions = Question.objects.filter(group_name=group_name).order_by('q_date')
+            q_list = [q.as_dict() for q in questions]
 
-        return render(request, 'bbs/main.html', {'q_list': q_list})
+            return render(request, 'bbs/main.html', {'q_list': q_list})
+        else:
+            return render(request, 'index.html')
 
 
 def logout(request):
-    # request.session.pop('user')
+    auth.logout(request)
     return redirect('/')
 
 
@@ -43,6 +43,6 @@ def board(request):
 def detail(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
 
-    return render(request, 'bbs/detail.html', context)
+    return render(request, 'bbs/detail.html')
 
 

@@ -1,6 +1,7 @@
 from django.db import models
 from .validators import validate_pw
 
+
 class Group(models.Model):
     # group_id = models.BigAutoField(primary_key=True)
     group_name = models.CharField(max_length=20, default='group_name_d', primary_key=True)

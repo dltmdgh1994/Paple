@@ -41,7 +41,8 @@ def login(request):
             user_dict = {
                 'u_email': user.user_email,
                 'u_name': user.user_name,
-                'u_birth': user.user_birth
+                'u_birth': user.user_birth,
+                'group_name': user.group_name
             }
             request.session['loginObj'] = user_dict
             # group이 있고없고 조건으로 나눠야 함
@@ -52,6 +53,7 @@ def login(request):
     if request.method == 'GET':
         login_form = LogInForm()
         return render(request, 'account/login.html', {'login_form': login_form})
+
 
 def signupdone(request):
     return render(request, 'account/signup_done.html')

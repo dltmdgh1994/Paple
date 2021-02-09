@@ -40,7 +40,7 @@ class Question(models.Model):
 class Post(models.Model):
     post_id = models.BigAutoField(primary_key=True)
     user_email = models.ForeignKey(Member, on_delete=models.CASCADE, db_column='user_email')
-    group_id = models.ForeignKey(Group, on_delete=models.CASCADE, db_column='group_id')
+    group_name = models.ForeignKey(Group, on_delete=models.CASCADE, db_column='group_name')
     post_date = models.DateTimeField()
     post_name = models.CharField(max_length=30)
     post_content = models.CharField(max_length=200)
@@ -52,8 +52,14 @@ class Post(models.Model):
 class Comment(models.Model):
     c_id = models.BigAutoField(primary_key=True)
     user_email = models.ForeignKey(Member, on_delete=models.CASCADE, db_column='user_email')
-    group_id = models.ForeignKey(Group, on_delete=models.CASCADE, db_column='group_id')
+    group_name = models.ForeignKey(Group, on_delete=models.CASCADE, db_column='group_name')
     c_content = models.CharField(max_length=200)
 
     def __str__(self):
         return self.c_content
+
+
+# DB 수정사항 반영
+# python manage.py migrate <app_name> zero
+# python manage.py makemigrations <app_name>
+# python manage.py migrate
