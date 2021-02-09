@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from bbs.models import Group, Question, Post
+from account.models import Group
+from bbs.models import Question, Post
 from django.core.paginator import Paginator
 
 

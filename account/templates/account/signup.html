@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block container %}
+<link href="/static/css/signup.css" rel="stylesheet">
+<div class="sidenav">
+         <div class="login-main-text">
+            <h2>Paple<br> Sign up page </h2>
+            <p>Sign up in here</p>
+         </div>
+      </div>
+      <div class="main">
+         <div class="col-md-6 col-sm-12">
+            <div class="login-form">
+               <form action="." method="post" href="{% url 'account:signup' %}">
+                   {% csrf_token %}
+                  <div class="form-group">
+                  {{ message }}
+                      {% for field in signup_form %}
+                          <div>
+                              {{ field.label }}
+                              {{ field}}
+{##}
+{#                              {% if field.errors %}#}
+{#                                  {% for i in field.errors %}#}
+{#                                      <p style="color: red;">{{ i | escape }}</p>#}
+{#                                  {% endfor %}#}
+{#                              {% endif %}#}
+                          </div>
+                      {% endfor %}
+
+                  </div>
+                  <button type="submit" class="btn btn-black"> Sign Up </button>
+               </form>
+            </div>
+         </div>
+      </div>
+
+
+{% endblock %}
+
+
+
+{##}
+{#    <div class = "container">#}
+{#        <h1> Sign up </h1>#}
+{#        <form action = "{% url 'account:signup' %}" method="post" autocomplete="on">#}
+{#            {% csrf_token %}#}
+{#            {{ message }}#}
+{#            {{ form }}#}
+{#            <br>#}
+{#            <button type="submit" class="btn btn-primary">가입하기!</button>#}
+{#        </form>#}
+{#    </div>#}
