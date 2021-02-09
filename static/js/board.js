@@ -1,4 +1,4 @@
 
-function move_post(p_id){
-    location.href = '/logout'
+function move_post(post_id){
+    location.href = '/bbs/'+post_id+'/'
 }

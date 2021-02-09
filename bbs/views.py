@@ -38,3 +38,10 @@ def board(request):
 
     return render(request, 'bbs/board.html', context)
 
+
+def detail(request, post_id):
+    post = get_object_or_404(Post, pk=post_id)
+
+    return render(request, 'bbs/detail.html', context)
+
+
