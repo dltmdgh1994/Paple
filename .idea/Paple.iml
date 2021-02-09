@@ -9,6 +9,7 @@
     <option name="TEMPLATE_FOLDERS">
       <list>
         <option value="$MODULE_DIR$/bbs/templates" />
+        <option value="$MODULE_DIR$/account/templates" />
       </list>
     </option>
   </component>

@@ -19,12 +19,7 @@
                           <div>
                               {{ field.label }}
                               {{ field}}
-{##}
-{#                              {% if field.errors %}#}
-{#                                  {% for i in field.errors %}#}
-{#                                      <p style="color: red;">{{ i | escape }}</p>#}
-{#                                  {% endfor %}#}
-{#                              {% endif %}#}
+
                           </div>
                       {% endfor %}
 
@@ -37,17 +32,3 @@
 
 
 {% endblock %}
-
-
-
-{##}
-{#    <div class = "container">#}
-{#        <h1> Sign up </h1>#}
-{#        <form action = "{% url 'account:signup' %}" method="post" autocomplete="on">#}
-{#            {% csrf_token %}#}
-{#            {{ message }}#}
-{#            {{ form }}#}
-{#            <br>#}
-{#            <button type="submit" class="btn btn-primary">가입하기!</button>#}
-{#        </form>#}
-{#    </div>#}
