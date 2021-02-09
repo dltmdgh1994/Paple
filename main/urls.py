@@ -6,5 +6,7 @@ from django.conf.urls import url
 urlpatterns = [
     url(r'^$', TemplateView.as_view(template_name='index.html')),
     path('admin/', admin.site.urls),
-    path('bbs/', include('bbs.urls'))
+    path('bbs/', include('bbs.urls')),
+    path('account/', include('account.urls'))
+
 ]

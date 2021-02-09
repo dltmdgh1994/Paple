@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'bbs.apps.BbsConfig'
+    'bbs.apps.BbsConfig',
+    'account.apps.AccountConfig'
 ]
 
 MIDDLEWARE = [

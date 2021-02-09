@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block container %}
+<link href="/static/css/signup.css" rel="stylesheet">
+<div class="sidenav">
+         <div class="login-main-text">
+            <h2>PaPle<br> Log In page</h2>
+
+         </div>
+      </div>
+      <div class="main">
+         <div class="col-md-6 col-sm-12">
+            <div class="login-form">
+               <form action="." method="post">
+                   {% csrf_token %}
+                  <div class="form-group">
+                  {{ message }}
+                      {% for field in login_form %}
+                          <div>
+                              {{ field.label }}
+                              {{ field}}
+                          </div>
+                      {% endfor %}
+                  </div>
+                  <button type="submit" class="btn btn-black"> Log In </button>
+                   <a href="/"  class="btn btn-black"> Home </a>
+               </form>
+            </div>
+         </div>
+      </div>
+
+
+{% endblock %}
+
+
+
+{##}
+{#    <div class = "container">#}
+{#        <h1> Sign up </h1>#}
+{#        <form action = "{% url 'account:signup' %}" method="post" autocomplete="on">#}
+{#            {% csrf_token %}#}
+{#            {{ message }}#}
+{#            {{ form }}#}
+{#            <br>#}
+{#            <button type="submit" class="btn btn-primary">가입하기!</button>#}
+{#        </form>#}
+{#    </div>#}
