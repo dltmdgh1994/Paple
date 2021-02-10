@@ -1,8 +1,7 @@
 
-from django.shortcuts import render, redirect
-from django.contrib import auth
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Member
-from .forms import MemberJoinForm, LogInForm
+from .forms import MemberJoinForm, LogInForm, ModifyInfoForm
 
 
 def signup(request):
@@ -18,8 +17,8 @@ def signup(request):
                                                            'signup_form': signup_form})
         else:
             if form.is_valid():
-                form.save(commit=False)
-                return render(request, 'account/signup_done.html', {'message': '회원가입 성공'})
+                form.save()
+                return redirect('/account/signup_done')
 
             else:
                 return render(request, 'account/signup.html',
@@ -63,29 +62,25 @@ def signupdone(request):
     return render(request, 'account/signup_done.html')
 
 #
-# def logout(request):
-#     request.session.clear()
-#     return render(request, 'index.html')
-
-
-# def login(request):
+# def modify(request):
+#     user_email = request.session['loginObj']
 #     if request.method == 'POST':
-#         input_email = request.POST['user_email']
-#         input_pw = request.POST['user_pw1']
-#         user = auth.authenticate(request, user_email=input_email, user_pw1=input_pw)
-#         if user is not None:
-#             auth.login(request, user)
-#             user_dict = {
-#                 'u_email': user.user_email,
-#                 'u_name': user.user_name,
-#                 'u_birth': user.user_birth
-#             }
-#             request.session['loginObj'] = user_dict
-#             # group이 있고없고 조건으로 나눠야 함
-#             return render(request, 'account/login.html', {'message': '로그인 성공!'})
+#         member = Member.objects.get(Member, id=user_email)
+#         modify_form = ModifyInfoForm(request.POST, instance=member)
+#         if modify_form.is_valid():
+#             modify_form.save()
+#             return render(request, 'account/modify_info.html', {
+#                 'message': '회원정보 update 완료!',
+#                 'modify_form': modify_form
+#             })
 #         else:
-#             return render(request, 'account/login.html', {'message': '로그인 실패!'})
+#             return render(request, 'account/modify_info.html', {
+#                 'message': '회원정보 update 실패',
+#                 'modify_form': modify_form
+#             })
 #
 #     if request.method == 'GET':
-#         login_form = LogInForm()
-#         return render(request, 'account/login.html', {'login_form': login_form})
+#         member = get_object_or_404(Member, pk=user_email)
+#         modify_form = ModifyInfoForm(instance=member)
+#         return render(request, 'account/modify_info.html', {'modify_form': modify_form})
+

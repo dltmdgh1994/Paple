@@ -13,15 +13,21 @@
             <div class="container">
                 <div class="row align-items-center justify-content-center">
                     <div class="col-md-7">
-                        <h3><strong>Congraturation!</strong></h3>
-                        <p class="mb-4">이제, Paple을 이용할 수 있습니다!</p>
+                        <h3><strong>User Information</strong></h3>
+                        <p class="mb-4"></p>
+                        <form action="#" method="post" href="{% url 'account:modify' member.user_email %}">
+                            {% csrf_token %}
+                            {{ message }}
+                            {% for field in modify_form %}
                              <div>
-                              <h1> {{ message }} </h1><br>
-                              <h2>아래 버튼을 눌러 로그인 해주세요! </h2>
+                              {{ field.label }}
+                              {{ field}}
                              <br>
                             </div>
-                            <button type="button" class="btn btn-black btn-primary" onclick="login()"> Log In </button>
-                            <button type="button" class="btn btn-black btn-primary" onclick="home()"> Home </button>
+                            {% endfor %}
+
+                            <button type="submit" class="btn btn-black btn-primary"> Modify </button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -32,4 +38,3 @@
 {#    <script src="js/bootstrap.min.js"></script>#}
 {#    <script src="js/main.js"></script>#}
 {% endblock %}
-{##}
