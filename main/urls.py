@@ -9,5 +9,4 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('bbs/', include('bbs.urls')),
     path('account/', include('account.urls'))
-
 ]

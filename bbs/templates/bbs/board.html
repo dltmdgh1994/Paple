@@ -18,23 +18,47 @@
     <!-- Google Fonts -->
     <link rel="stylesheet" href="/static/css/google_font.css">
 
+    <script src="/static/js/main.js"></script>
     <script src="/static/js/board.js"></script>
+
+    <script>
+        $(document).ready(function(){
+            changeColor();
+        })
+
+        function changeColor(){
+            $('#td_name').mouseover(function(){
+                $(this).addClass('changeColor');
+            }).mouseout(function() {
+                $(this).removeClass('changeColor');
+            });
+        }
+    </script>
+
+    <style>
+        .changeColor {
+            color: #002fff;
+        }
+    </style>
 
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" aria-label="Eighth navbar example">
+    <!-- 상단 navbar -->
+  <header>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" aria-label="Eighth navbar example">
         <div class="container">
           <a class="navbar-brand" href="#">Paple</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample07" aria-controls="navbarsExample07" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
-          <div class="collapse navbar-collapse" id="navbarsExample07">
+
+          <div class="collapse navbar-collapse " id="navbarsExample07">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <li class="nav-item p-2">
                 <a class="nav-link" href="#">심리 테스트</a>
               </li>
               <li class="nav-item p-2">
-                <a class="nav-link" href="#">그룹 게시판</a>
+                <a class="nav-link" href="/bbs/board/">그룹 게시판</a>
               </li>
               <li class="nav-item p-2">
                 <a class="nav-link" href="#">그룹 설정하기</a>
@@ -44,7 +68,8 @@
                       type="submit" onclick="logout()">Logout</button>
           </div>
         </div>
-    </nav>
+      </nav>
+  </header>
 
     <div class="container"  style="margin-top: 100px">
         <table class="table" style="margin-top: 20px">
@@ -59,11 +84,12 @@
             </thead>
             <tbody>
                 {% for post in posts %}
-                <tr onclick="">
+                <tr>
                     <td>{{ post.post_id }}</td>
                     <td>{{ post.user_email }}</td>
-                    <td>{{ post.post_name }}</td>
-                    <td>{{ post.post_date }}</td>
+                    <td id="td_name" style="cursor:pointer; width:40%;"
+                        onclick="move_post({{ post.post_id }})">{{ post.post_name }}</td>
+                    <td>{{ post.post_date }} </td>
                 </tr>
                 {% endfor %}
             </tbody>

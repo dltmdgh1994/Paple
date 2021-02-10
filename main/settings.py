@@ -111,14 +111,19 @@ TIME_ZONE = 'Asia/Seoul'
 
 USE_I18N = True
 
-USE_L10N = True
+# 날짜 형식을 지정
+# USE_L10N을 False로 설정하고 DATETIME_FORMAT을 지정
+USE_L10N = False
+DATETIME_FORMAT = 'Y.m.d G:i:s'
 
-USE_TZ = True
+# When USE_TZ is False, this is the time zone in which Django will store all datetimes.
+# When USE_TZ is True, this is the default time zone that Django will use to display
+# datetimes in templates and to interpret datetimes entered in forms.
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
-
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')

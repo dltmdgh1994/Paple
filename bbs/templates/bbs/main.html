@@ -56,16 +56,6 @@
           return arr
       }
 
-      // Date를 yyyy-MM-dd 형태로 변환
-      function getFormatDate(date){
-          var year = date.getFullYear()     // yyyy
-          var month = (1 + date.getMonth())     // M
-          month = month >= 10 ? month : '0' + month // month를 두자리로 저장
-          var day = date.getDate()          // d
-          day = day >= 10 ? day : '0' + day // day를 두자리로 저장
-          return year + '-' + month + '-' + day
-      }
-
     </script>
 
     <!-- carousel_style.css -->
@@ -75,7 +65,7 @@
 
 </head>
 <body>
-    <!-- 상단 navbar -->
+  <!-- 상단 navbar -->
   <header>
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" aria-label="Eighth navbar example">
         <div class="container">
