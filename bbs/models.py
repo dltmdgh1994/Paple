@@ -5,7 +5,7 @@ from account.models import Member, Group
 class Question(models.Model):
     q_id = models.BigAutoField(primary_key=True)
     q_content = models.CharField(max_length=200)
-    q_date = models.DateTimeField()
+    q_date = models.DateField()
 
     def __str__(self):
         return self.q_content
