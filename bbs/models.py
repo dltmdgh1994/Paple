@@ -19,9 +19,9 @@ class Post(models.Model):
     post_id = models.BigAutoField(primary_key=True)
     user_email = models.ForeignKey(Member, on_delete=models.CASCADE, db_column='user_email')
     group_name = models.ForeignKey(Group, on_delete=models.CASCADE, db_column='group_name')
-    post_date = models.DateTimeField()
+    post_date = models.DateTimeField(auto_now_add=True)
     post_name = models.CharField(max_length=30)
-    post_content = models.CharField(max_length=200)
+    post_content = models.TextField()
 
     def __str__(self):
         return self.post_name
@@ -31,7 +31,7 @@ class Comment(models.Model):
     c_id = models.BigAutoField(primary_key=True)
     user_email = models.ForeignKey(Member, on_delete=models.CASCADE, db_column='user_email')
     group_name = models.ForeignKey(Group, on_delete=models.CASCADE, db_column='group_name')
-    c_content = models.CharField(max_length=200)
+    c_content = models.TextField()
 
     def __str__(self):
         return self.c_content
