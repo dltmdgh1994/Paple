@@ -80,9 +80,9 @@ def post_register(request):
         if form.is_valid():
             post = form.save(commit=False)
             user_email = request.session['loginObj']
-            member = get_object_or_404(Member, pk=user_email)
+            member = Member.objects.get(user_email=user_email)
             group_name = member.group_name
-            post.user_email = user_email
+            post.user_email = member
             post.group_name = group_name
             post.post_date = datetime.datetime.now()
             post.save()

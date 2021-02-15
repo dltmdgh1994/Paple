@@ -8,5 +8,6 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('admin/', admin.site.urls),
     path('bbs/', include('bbs.urls')),
-    path('account/', include('account.urls'))
+    path('account/', include('account.urls')),
+    path('group/', include('group.urls'))
 ]
