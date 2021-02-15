@@ -155,7 +155,11 @@
           <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative"  style="height:100%">
             <div class="col p-4 d-flex flex-column position-static">
               <h2 class="mb-auto">오늘의 질문</h2>
-                <p class="card-text mb-auto">오늘의 느낌은 어딘가요?</p>
+                {% if today_q %}
+                    <p class="card-text mb-auto">{{ today_q }}</p>
+                {% else %}
+                    <p class="card-text mb-auto">오늘의 질문이 없습니다.</p>
+                {% endif %}
                 <div class="container">
                     <button class="btn btn-primary" type="submit">답변 달러가기</button>
                 </div>
@@ -166,8 +170,9 @@
           <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative"  style="height:100%">
             <div class="col p-4 d-flex flex-column position-static">
               <h2 class="mb-auto">올라온 질문</h2>
-                <a href="#" class="mb-auto">오늘도 눈이 올까요?</a>
-                <a href="#" class="mb-auto">자장면 vs 짬뽕</a>
+                {% for post in posts %}
+                    <a href="#" class="mb-auto">{{ post.post_name }}</a>
+                {% endfor %}
             </div>
           </div>
         </div>

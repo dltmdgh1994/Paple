@@ -65,7 +65,6 @@ def signupdone(request):
 def modify(request):
     login_email = request.session['loginObj']
     if request.method == 'POST':
-        # member = Member.objects.get(Member, id=login_email)
         member = get_object_or_404(Member, pk=login_email)
         modify_form = ModifyInfoForm(request.POST, instance=member)
         if modify_form.is_valid():
@@ -81,8 +80,6 @@ def modify(request):
             })
 
     if request.method == 'GET':
-        print(login_email)
-        # member = Member.objects.get(user_email=login_email)
         member = get_object_or_404(Member, pk=login_email)
         modify_form = ModifyInfoForm(instance=member)
         return render(request, 'account/modify_info.html', {'modify_form': modify_form})
