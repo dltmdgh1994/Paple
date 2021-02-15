@@ -60,6 +60,13 @@ def board(request):
 
 def detail(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
-    comments = Comment.objects.filter()
 
-    return render(request, 'bbs/detail.html', {'post': post})
+    user_email = request.session['loginObj']
+    member = get_object_or_404(Member, pk=user_email)
+    group_name = member.group_name
+    comments = Comment.objects.filter(group_name=group_name)
+
+    return render(request, 'bbs/detail.html', {
+        'post': post,
+        'comments': comments
+    })

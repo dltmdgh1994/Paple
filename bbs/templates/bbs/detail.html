@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="/static/css/google_font.css">
 
     <script src="/static/js/main.js"></script>
+    <script src="/static/js/detail.js"></script>
 
 </head>
 <body>
@@ -74,9 +75,17 @@
           <hr>
 
       </article>
-      <button type="submit" class="btn btn-dark" style="margin-right: 10px; float: left">게시판으로</button>
-      <button type="submit" class="btn btn-dark" style="margin-right: 10px; float: left">수정하기</button>
-      <button type="submit" class="btn btn-dark">삭제하기</button>
+      {% if request.session.loginObj == post.user_email|stringformat:"s" %}
+          <button type="submit" class="btn btn-dark"
+                  style="margin-right: 10px; float: left"
+                  onclick="move_board()">게시판으로</button>
+          <button type="submit" class="btn btn-dark" style="margin-right: 10px; float: left">수정하기</button>
+          <button type="submit" class="btn btn-dark">삭제하기</button>
+      {% else %}
+          <button type="submit" class="btn btn-dark"
+                  onclick="move_board()">게시판으로</button>
+      {% endif %}
+
 
       <!-- Single Comment -->
       <div class="card my-4"  style="margin-top: 30px; margin-bottom: 30px">
