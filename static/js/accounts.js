@@ -12,3 +12,7 @@ function home(){
 function login(){
     location.href = '/account/login'
 }
+
+function main(){
+    location.href = '/bbs/main'
+}
