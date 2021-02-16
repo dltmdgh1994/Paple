@@ -16,7 +16,7 @@ class ModifyGroupInfoForm(forms.ModelForm):
                     'class': 'form-control',
                 }
             ),
-            'group_code': forms.Textarea(
+            'group_code': forms.TextInput(
                 attrs={
                     'class': 'form-control',
                     'readonly': True
@@ -44,7 +44,8 @@ class GroupForm(forms.ModelForm):
             ),
             'group_code': forms.TextInput(
                 attrs={
-                    'class': 'form-control'
+                    'class': 'form-control',
+                    'readonly': True
                 }
             )
         }

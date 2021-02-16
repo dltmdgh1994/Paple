@@ -32,15 +32,19 @@ def group_login(request):
 
 
 def group_signin(request):
+    user_email = request.session['loginObj']
+    member = Member.objects.get(user_email=user_email)
+    invite_code = generate_random_slug_code()
+    new_group = Group(group_name='default', group_code=invite_code)
+
     if request.method == "POST":
-        form = GroupForm(request.POST)
+        form = GroupForm(request.POST, instance=new_group)
         if form.is_valid():
             # Group 정보 수정
             form.save()
             
             # Member 정보 수정
-            user_email = request.session['loginObj']
-            member = Member.objects.get(user_email=user_email)
+
             group = Group.objects.get(group_code=form.cleaned_data['group_code'])
             member.group_code = group
             member.user_status = True
@@ -48,8 +52,10 @@ def group_signin(request):
 
             return redirect('bbs:main')
     else:
-        form = GroupForm()
-        invite_code = generate_random_slug_code()
+        # member.group_code = new_group.group_code
+        # member.user_status = True
+
+        form = GroupForm(instance=new_group)
 
         return render(request, 'group/group_signin.html', {
             'form': form,
