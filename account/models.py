@@ -2,10 +2,9 @@ from django.db import models
 
 
 class Group(models.Model):
-    # group_id = models.BigAutoField(primary_key=True)
     group_name = models.CharField(max_length=20, default='group_name_d', primary_key=True)
     group_img = models.ImageField(upload_to='', blank=True)
-    group_link = models.URLField(blank=True)
+    group_link = models.TextField(blank=True)
 
     def __str__(self):
         return self.group_name
