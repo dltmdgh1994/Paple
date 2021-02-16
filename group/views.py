@@ -1,5 +1,6 @@
 from django.shortcuts import render
 
+
 def group_main(request):
 
     return render(request, 'group/group_main.html', {

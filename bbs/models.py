@@ -31,6 +31,7 @@ class Comment(models.Model):
     c_id = models.BigAutoField(primary_key=True)
     user_email = models.ForeignKey(Member, on_delete=models.CASCADE, db_column='user_email')
     group_name = models.ForeignKey(Group, on_delete=models.CASCADE, db_column='group_name')
+    post_id = models.ForeignKey(Post, on_delete=models.CASCADE, db_column='post_id')
     c_content = models.TextField()
 
     def __str__(self):

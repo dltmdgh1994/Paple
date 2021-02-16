@@ -66,7 +66,7 @@ def detail(request, post_id):
     user_email = request.session['loginObj']
     member = get_object_or_404(Member, pk=user_email)
     group_name = member.group_name
-    comments = Comment.objects.filter(group_name=group_name)
+    comments = Comment.objects.filter(group_name=group_name, post_id=post_id)
 
     return render(request, 'bbs/detail.html', {
         'post': post,
@@ -87,10 +87,57 @@ def post_register(request):
             post.post_date = datetime.datetime.now()
             post.save()
             return redirect('bbs:board')
-
     else:
         form = PostForm()
 
     return render(request, 'bbs/post_register.html', {
         'form': form
     })
+
+
+def post_update(request, post_id):
+    post = Post.objects.get(post_id=post_id)
+
+    if request.method == "POST":
+        form = PostForm(request.POST, instance=post)
+        if form.is_valid():
+            post = form.save(commit=False)
+            user_email = request.session['loginObj']
+            member = Member.objects.get(user_email=user_email)
+            group_name = member.group_name
+            post.user_email = member
+            post.group_name = group_name
+            post.post_date = datetime.datetime.now()
+            post.save()
+
+            return redirect('bbs:detail', post_id=post_id)
+    else:
+        form = PostForm(instance=post)
+
+    return render(request, 'bbs/post_update.html', {
+        'form': form
+    })
+
+
+def post_delete(request, post_id):
+    post = Post.objects.get(post_id=post_id)
+    post.delete()
+    return redirect('bbs:board')
+
+
+def comment_register(request, post_id):
+    if request.method == 'POST':
+        val = request.POST.get("comment")
+        user_email = request.session['loginObj']
+        member = Member.objects.get(user_email=user_email)
+        group_name = member.group_name
+        post = Post.objects.get(post_id=post_id)
+
+        comment = Comment()
+        comment.user_email = member
+        comment.group_name = group_name
+        comment.c_content = val
+        comment.post_id = post
+        comment.save()
+
+        return redirect('bbs:detail', post_id=post_id)

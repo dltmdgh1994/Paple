@@ -21,6 +21,16 @@
     <script src="/static/js/main.js"></script>
     <script src="/static/js/detail.js"></script>
 
+    <script>
+        function post_update(post_id){
+            location.href = '/bbs/board/'+post_id+'/update/'
+        }
+
+        function post_delete(post_id){
+            location.href = '/bbs/board/'+post_id+'/delete/'
+        }
+    </script>
+
 </head>
 <body>
   <!-- 상단 navbar -->
@@ -71,7 +81,7 @@
           <hr>
 
           <p class="lead"
-             style="margin-top: 30px; margin-bottom: 30px">{{ post.post_content }}</p>
+             style="margin-top: 30px; margin-bottom: 30px">{{ post.post_content|linebreaksbr }}</p>
           <hr>
 
       </article>
@@ -79,8 +89,11 @@
           <button type="submit" class="btn btn-dark"
                   style="margin-right: 10px; float: left"
                   onclick="move_board()">게시판으로</button>
-          <button type="submit" class="btn btn-dark" style="margin-right: 10px; float: left">수정하기</button>
-          <button type="submit" class="btn btn-dark">삭제하기</button>
+          <button type="submit" class="btn btn-dark"
+                  style="margin-right: 10px; float: left"
+                  onclick="post_update({{ post.post_id }})">수정하기</button>
+          <button type="submit" class="btn btn-dark"
+                  onclick="post_delete({{ post.post_id }})">삭제하기</button>
       {% else %}
           <button type="submit" class="btn btn-dark"
                   onclick="move_board()">게시판으로</button>
@@ -90,19 +103,26 @@
       <!-- Single Comment -->
       <div class="card my-4"  style="margin-top: 30px; margin-bottom: 30px">
           <h5 class="card-header bg-dark text-white">댓글</h5>
-          <div class="card-body">
-              <h5 class="mt-0">Commenter Name</h5>
-              Comment
-          </div>
+          {% if comments %}
+              {% for comment in comments %}
+                  <div class="card-body">
+                      <h5 class="mt-0">{{ comment.user_email }}</h5>
+                      {{ comment.c_content|linebreaksbr }}
+                  </div>
+              {% endfor %}
+          {% else %}
+              <div class="card-body">댓글 없음</div>
+          {% endif %}
       </div>
 
       <!-- Comments Form -->
       <div class="card my-4">
           <h5 class="card-header bg-dark text-white">댓글 달기</h5>
           <div class="card-body">
-              <form>
+              <form method="POST" action="{% url 'bbs:comment_register' post.post_id %}">
+                  {% csrf_token %}
                   <div class="form-group">
-                      <textarea class="form-control" rows="3"></textarea>
+                      <textarea class="form-control" rows="3" name="comment"></textarea>
                   </div>
                   <button type="submit" class="btn btn-dark" style="margin-top: 20px;">등록</button>
               </form>
