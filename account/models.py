@@ -3,7 +3,7 @@ from django.db import models
 
 class Group(models.Model):
     group_name = models.CharField(max_length=20, default='group_name_d', primary_key=True)
-    group_img = models.ImageField(upload_to='', blank=True)
+    group_img = models.ImageField(upload_to='group_image/', blank=True)
     group_link = models.TextField(blank=True)
 
     def __str__(self):
