@@ -16,7 +16,7 @@ def group_login(request):
         # 초대 코드를 통해 그룹 찾기
         val = request.POST.get("invite_code")
         try:
-            group = Group.objects.get(group_link=val)
+            group = Group.objects.get(group_code=val)
         except Group.DoesNotExist:
             return render(request, 'group/group_main.html', {
                 'message': '초대 코드가 잘못됐습니다.'
@@ -24,7 +24,7 @@ def group_login(request):
 
         user_email = request.session['loginObj']
         member = Member.objects.get(user_email=user_email)
-        member.group_name = group
+        member.group_code = group
         member.user_status = True
         member.save()
 
@@ -41,8 +41,8 @@ def group_signin(request):
             # Member 정보 수정
             user_email = request.session['loginObj']
             member = Member.objects.get(user_email=user_email)
-            group = Group.objects.get(group_name=form.cleaned_data['group_name'])
-            member.group_name = group
+            group = Group.objects.get(group_code=form.cleaned_data['group_code'])
+            member.group_code = group
             member.user_status = True
             member.save()
 
