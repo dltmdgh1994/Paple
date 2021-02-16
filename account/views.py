@@ -37,12 +37,15 @@ def login(request):
         input_pw = request.POST['user_pw1']
 
         if Member.objects.filter(user_email=input_email).exists():
-            getUser = Member.objects.get(user_email=input_email)
-            if getUser.user_pw1 == input_pw:
-                # request.session['loginObj'] = True
-                request.session['loginObj'] = getUser.user_email
+            member = Member.objects.get(user_email=input_email)
+            if member.user_pw1 == input_pw:
+                request.session['loginObj'] = member.user_email
+
                 # group이 있고없고 조건으로 나눠야 함
-                return redirect('/bbs/main/')
+                if member.user_status:
+                    return redirect('/bbs/main/')
+                else:
+                    return redirect('/group/group_main/')
             else:
                 return render(request, 'account/login.html', {
                     'message': '비밀번호가 맞지 않습니다.',

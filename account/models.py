@@ -17,7 +17,7 @@ class Member(models.Model):
     user_pw1 = models.CharField(max_length=20)
     user_pw2 = models.CharField(max_length=20)
     user_birth = models.DateField('date_published')
-    user_status = models.BooleanField(blank=True, default=False)
+    user_status = models.BooleanField(default=False)
 
     def __str__(self):
         return self.user_email

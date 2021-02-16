@@ -25,3 +25,20 @@ class ModifyGroupInfoForm(forms.ModelForm):
         }
 
 
+class GroupForm(forms.ModelForm):
+
+    class Meta:
+        model = Group
+        fields = ['group_name']
+
+        labels = {
+            'group_name': '그룹명'
+        }
+
+        widgets = {
+            'group_name': forms.TextInput(
+                attrs={
+                    'class': 'form-control'
+                }
+            )
+        }

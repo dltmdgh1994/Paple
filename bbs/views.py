@@ -33,7 +33,6 @@ def main(request):
             'q_list': q_list,
             'posts': posts,
             'today_q': today_q,
-            'questions': questions
         })
     else:
         return redirect('/')
