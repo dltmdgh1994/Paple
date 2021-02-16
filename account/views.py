@@ -61,26 +61,26 @@ def login(request):
 def signupdone(request):
     return render(request, 'account/signup_done.html')
 
-#
-# def modify(request):
-#     user_email = request.session['loginObj']
-#     if request.method == 'POST':
-#         member = Member.objects.get(Member, id=user_email)
-#         modify_form = ModifyInfoForm(request.POST, instance=member)
-#         if modify_form.is_valid():
-#             modify_form.save()
-#             return render(request, 'account/modify_info.html', {
-#                 'message': '회원정보 update 완료!',
-#                 'modify_form': modify_form
-#             })
-#         else:
-#             return render(request, 'account/modify_info.html', {
-#                 'message': '회원정보 update 실패',
-#                 'modify_form': modify_form
-#             })
-#
-#     if request.method == 'GET':
-#         member = get_object_or_404(Member, pk=user_email)
-#         modify_form = ModifyInfoForm(instance=member)
-#         return render(request, 'account/modify_info.html', {'modify_form': modify_form})
+
+def modify(request):
+    login_email = request.session['loginObj']
+    if request.method == 'POST':
+        member = get_object_or_404(Member, pk=login_email)
+        modify_form = ModifyInfoForm(request.POST, instance=member)
+        if modify_form.is_valid():
+            modify_form.save()
+            return render(request, 'account/modify_info.html', {
+                'message': '회원정보 update 완료!',
+                'modify_form': modify_form
+            })
+        else:
+            return render(request, 'account/modify_info.html', {
+                'message': '회원정보 update 실패',
+                'modify_form': modify_form
+            })
+
+    if request.method == 'GET':
+        member = get_object_or_404(Member, pk=login_email)
+        modify_form = ModifyInfoForm(instance=member)
+        return render(request, 'account/modify_info.html', {'modify_form': modify_form})
 

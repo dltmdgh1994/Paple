@@ -20,14 +20,13 @@ def main(request):
             group_name = member.group_name
             posts = Post.objects.filter(group_name=group_name).order_by('-post_id')[0:2]
 
-            # 오늘의 질문 (현재 없으면 에러)
-            today_date = datetime.date.today().isoformat()
-            today_q = Question.objects.get(q_date=today_date)
+            # # 오늘의 질문 (현재 없으면 에러)
+            # today_date = datetime.date.today().isoformat()
+            # today_q = Question.objects.get(q_date=today_date)
 
             return render(request, 'bbs/main.html', {
                 'q_list': q_list,
-                'posts': posts,
-                'today_q': today_q
+                'posts': posts
             })
         else:
             return redirect('/')
