@@ -30,14 +30,20 @@ class GroupForm(forms.ModelForm):
 
     class Meta:
         model = Group
-        fields = ['group_name']
+        fields = ['group_name', 'group_link']
 
         labels = {
-            'group_name': '그룹명'
+            'group_name': '그룹명',
+            'group_link': '그룹 코드'
         }
 
         widgets = {
             'group_name': forms.TextInput(
+                attrs={
+                    'class': 'form-control'
+                }
+            ),
+            'group_link': forms.TextInput(
                 attrs={
                     'class': 'form-control'
                 }

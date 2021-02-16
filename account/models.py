@@ -12,7 +12,7 @@ class Group(models.Model):
 
 class Member(models.Model):
     user_email = models.EmailField(max_length=50, primary_key=True)
-    group_name = models.ForeignKey(Group, on_delete=models.CASCADE, db_column='group_name', blank=True)
+    group_name = models.ForeignKey(Group, on_delete=models.CASCADE, db_column='group_name', blank=True, null=True)
     user_name = models.CharField(max_length=20)
     user_pw1 = models.CharField(max_length=20)
     user_pw2 = models.CharField(max_length=20)

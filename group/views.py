@@ -1,6 +1,9 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from account.models import Member, Group
-from group.forms import ModifyGroupInfoForm
+from group.forms import ModifyGroupInfoForm, GroupForm
+import uuid
+import base64
+import codecs
 
 
 def group_main(request):
@@ -21,7 +24,7 @@ def group_login(request):
 
         user_email = request.session['loginObj']
         member = Member.objects.get(user_email=user_email)
-        member.group_name = group.group_name
+        member.group_name = group
         member.user_status = True
         member.save()
 
@@ -29,8 +32,29 @@ def group_login(request):
 
 
 def group_signin(request):
+    if request.method == "POST":
+        form = GroupForm(request.POST)
+        if form.is_valid():
+            # Group 정보 수정
+            form.save()
+            
+            # Member 정보 수정
+            user_email = request.session['loginObj']
+            member = Member.objects.get(user_email=user_email)
+            group = Group.objects.get(group_name=form.cleaned_data['group_name'])
+            member.group_name = group
+            member.user_status = True
+            member.save()
 
-    return render(request, 'group/group_signin.html')
+            return redirect('bbs:main')
+    else:
+        form = GroupForm()
+        invite_code = generate_random_slug_code()
+
+        return render(request, 'group/group_signin.html', {
+            'form': form,
+            'invite_code': invite_code
+        })
 
 
 def group_modify(request):
@@ -66,4 +90,10 @@ def group_modify(request):
                                                            'group': group})
 
 
-
+def generate_random_slug_code(length=8):
+    """
+    generates random code of given length
+    """
+    return base64.urlsafe_b64encode(
+        codecs.encode(uuid.uuid4().bytes, "base64").rstrip()
+    ).decode()[:length]
