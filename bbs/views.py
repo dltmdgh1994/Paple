@@ -19,8 +19,8 @@ def main(request):
 
         # 올라온 질문
         member = get_object_or_404(Member, pk=user_email)
-        group_name = member.group_name
-        posts = Post.objects.filter(group_name=group_name).order_by('-post_id')[0:2]
+        group_code = member.group_code
+        posts = Post.objects.filter(group_code=group_code).order_by('-post_id')[0:2]
 
         # 오늘의 질문
         today_date = datetime.date.today().isoformat()
@@ -48,8 +48,8 @@ def board(request):
     # 해당 그룹의 게시판 글을 DB에서 불러옴
     user_email = request.session['loginObj']
     member = get_object_or_404(Member, pk=user_email)
-    group_name = member.group_name
-    posts = Post.objects.filter(group_name=group_name).order_by('-post_id')
+    group_code = member.group_code
+    posts = Post.objects.filter(group_code=group_code).order_by('-post_id')
 
     page = request.GET.get('page', '1')
 
@@ -67,8 +67,8 @@ def detail(request, post_id):
 
     user_email = request.session['loginObj']
     member = get_object_or_404(Member, pk=user_email)
-    group_name = member.group_name
-    comments = Comment.objects.filter(group_name=group_name, post_id=post_id)
+    group_code = member.group_code
+    comments = Comment.objects.filter(group_code=group_code, post_id=post_id)
 
     return render(request, 'bbs/detail.html', {
         'post': post,
@@ -83,9 +83,9 @@ def post_register(request):
             post = form.save(commit=False)
             user_email = request.session['loginObj']
             member = Member.objects.get(user_email=user_email)
-            group_name = member.group_name
+            group_code = member.group_code
             post.user_email = member
-            post.group_name = group_name
+            post.group_code = group_code
             post.post_date = datetime.datetime.now()
             post.save()
             return redirect('bbs:board')
@@ -106,9 +106,9 @@ def post_update(request, post_id):
             post = form.save(commit=False)
             user_email = request.session['loginObj']
             member = Member.objects.get(user_email=user_email)
-            group_name = member.group_name
+            group_code = member.group_code
             post.user_email = member
-            post.group_name = group_name
+            post.group_code = group_code
             post.post_date = datetime.datetime.now()
             post.save()
 
@@ -132,12 +132,12 @@ def comment_register(request, post_id):
         val = request.POST.get("comment")
         user_email = request.session['loginObj']
         member = Member.objects.get(user_email=user_email)
-        group_name = member.group_name
+        group_code = member.group_code
         post = Post.objects.get(post_id=post_id)
 
         comment = Comment()
         comment.user_email = member
-        comment.group_name = group_name
+        comment.group_code = group_code
         comment.c_content = val
         comment.post_id = post
         comment.save()
@@ -157,9 +157,9 @@ def question_register(request, q_id):
         post = Post()
         user_email = request.session['loginObj']
         member = Member.objects.get(user_email=user_email)
-        group_name = member.group_name
+        group_code = member.group_code
         post.user_email = member
-        post.group_name = group_name
+        post.group_code = group_code
         post.post_date = datetime.datetime.now()
         post.post_name = question.q_content
         post.post_content = " "
@@ -185,9 +185,9 @@ def question_register2(request, q_date):
         post = Post()
         user_email = request.session['loginObj']
         member = Member.objects.get(user_email=user_email)
-        group_name = member.group_name
+        group_code = member.group_code
         post.user_email = member
-        post.group_name = group_name
+        post.group_code = group_code
         post.post_date = datetime.datetime.now()
         post.post_name = question.q_content
         post.post_content = " "

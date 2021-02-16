@@ -5,11 +5,10 @@ from account.models import Group
 class ModifyGroupInfoForm(forms.ModelForm):
     class Meta:
         model = Group
-        fields = ['group_img', 'group_name', 'group_link']
+        fields = ['group_name', 'group_code']
         labels = {
             'group_name': 'Group Name',
-            'group_link': 'Group Code',
-            'group_img': 'Group Image'
+            'group_code': 'Group Code'
         }
         widgets = {
             'group_name': forms.TextInput(
@@ -17,7 +16,7 @@ class ModifyGroupInfoForm(forms.ModelForm):
                     'class': 'form-control',
                 }
             ),
-            'group_link': forms.Textarea(
+            'group_code': forms.Textarea(
                 attrs={
                     'class': 'form-control',
                     'readonly': True
@@ -30,11 +29,11 @@ class GroupForm(forms.ModelForm):
 
     class Meta:
         model = Group
-        fields = ['group_name', 'group_link']
+        fields = ['group_name', 'group_code']
 
         labels = {
             'group_name': '그룹명',
-            'group_link': '그룹 코드'
+            'group_code': '그룹 코드'
         }
 
         widgets = {
@@ -43,7 +42,7 @@ class GroupForm(forms.ModelForm):
                     'class': 'form-control'
                 }
             ),
-            'group_link': forms.TextInput(
+            'group_code': forms.TextInput(
                 attrs={
                     'class': 'form-control'
                 }
