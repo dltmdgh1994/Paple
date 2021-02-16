@@ -1,7 +1,7 @@
 
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Member
-from .forms import MemberJoinForm, LogInForm, ModifyInfoForm
+from .forms import MemberJoinForm, LogInForm, ModifyUserInfoForm
 
 
 def signup(request):
@@ -66,7 +66,7 @@ def modify(request):
     login_email = request.session['loginObj']
     if request.method == 'POST':
         member = get_object_or_404(Member, pk=login_email)
-        modify_form = ModifyInfoForm(request.POST, instance=member)
+        modify_form = ModifyUserInfoForm(request.POST, instance=member)
         if modify_form.is_valid():
             modify_form.save()
             return render(request, 'account/modify_info.html', {
@@ -81,6 +81,6 @@ def modify(request):
 
     if request.method == 'GET':
         member = get_object_or_404(Member, pk=login_email)
-        modify_form = ModifyInfoForm(instance=member)
+        modify_form = ModifyUserInfoForm(instance=member)
         return render(request, 'account/modify_info.html', {'modify_form': modify_form})
 

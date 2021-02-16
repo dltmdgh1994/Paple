@@ -13,21 +13,20 @@
             <div class="container">
                 <div class="row align-items-center justify-content-center">
                     <div class="col-md-7">
-                        <h3>Login to <strong>Paple</strong></h3>
+                        <h3><strong>Group Information</strong></h3>
                         <p class="mb-4"></p>
-                        <form method="post" href="{% url 'account:login' %}">
+                        <form method="post" href="{% url 'account:modify' %}" enctype="multipart/form-data">
                             {% csrf_token %}
                             {{ message }}
-                            {% for field in login_form %}
+                            {% for field in modify_form %}
                              <div>
-                              {{ field.label }}
+                              {{ field.label }}<br>
                               {{ field}}
-                             <br>
+                             <br><br>
                             </div>
                             {% endfor %}
-
-                            <button type="submit" class="btn btn-block btn-primary"> Log In </button>
-                            <button type="button" class="btn btn-block btn-primary" onclick="home()"> Home </button>
+                            <button type="submit" class="btn btn-block btn-primary"> Modify </button>
+                            <button type="button" class="btn btn-block btn-primary" onclick="main()"> Main </button>
                         </form>
                     </div>
                 </div>

@@ -1,10 +1,38 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
+from account.models import Member, Group
+from group.forms import ModifyGroupInfoForm
 
 
 def group_main(request):
 
     return render(request, 'group/group_main.html', {
-        'page_title' : 'Group_Main',
-        'user_data' : '그룹 만들기'
+        'page_title': 'Group_Main',
+        'user_data': '그룹 만들기'
     })
+
+
+def group_modify(request):
+    login_email = request.session['loginObj']
+    member = get_object_or_404(Member, pk=login_email)
+    group = get_object_or_404(Group, pk=member.group_name)
+
+    if request.method == 'POST':
+        modify_form = ModifyGroupInfoForm(request.POST, instance=group)
+        if modify_form.is_valid():
+            modify_form.save()
+            return render(request, 'group/group_modify.html', {
+                'message': '그룹정보 update 완료!',
+                'modify_form': modify_form
+            })
+        else:
+            return render(request, 'group/group_modify.html', {
+                'message': '그룹정보 update 실패',
+                'modify_form': modify_form
+            })
+
+    if request.method == 'GET':
+        modify_form = ModifyGroupInfoForm()
+        return render(request, 'group/group_modify.html', {'modify_form': modify_form})
+
+
 

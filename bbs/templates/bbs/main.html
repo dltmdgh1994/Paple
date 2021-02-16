@@ -23,50 +23,38 @@
     <link href='/static/css/calendar.css' rel='stylesheet' />
     <script src='/static/js/calendar.js'></script>
     <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        let calendarEl = document.getElementById('calendar');
-        let q = getCalendarData()
-        let calendar = new FullCalendar.Calendar(calendarEl, {
-          initialView: 'dayGridMonth',
-          locale: 'ko',
-          editable: true,
-          <!-- 날짜 선택 시 이벤트  -->
-          dateClick: function (info) {
-              question_register2(info.dateStr)
-          },
-          eventClick: function (info) {
-              question_register2(info.dateStr)
-          }
+        document.addEventListener('DOMContentLoaded', function() {
+            let calendarEl = document.getElementById('calendar');
+            let calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                locale: 'ko',
+                editable: true,
+                <!-- 날짜 선택 시 이벤트  -->
+                dateClick: function (info) {
+                    alert('Clicked on: ' + info.dateStr)
+                }
+            });
+
+            let q = getCalendarData()
+            $.each(q, function (index, item){
+                calendar.addEvent(item)
+            })
+
+            calendar.render();
         });
 
+        // DB에서 질문을 불러옴
+        function getCalendarData(){
+            let arr = []
+            const q_list = "{{ q_list }}".replace(/&#39;/g, "\"")
+            const questions = JSON.parse(q_list)
 
-        $.each(q, function (index, item){
-            calendar.addEvent(item)
-        })
+            for(let i = 0; i < questions.length; i++){
+                arr.push({'title': questions[i]['q_content'], 'start': questions[i]['q_date']})
+            }
 
-        calendar.render();
-      });
-
-      // DB에서 질문을 불러옴
-      function getCalendarData(){
-          let arr = []
-          const q_list = "{{ q_list }}".replace(/&#39;/g, "\"")
-          const questions = JSON.parse(q_list)
-
-          for(let i = 0; i < questions.length; i++){
-              arr.push({'title': questions[i]['q_content'], 'start': questions[i]['q_date']})
-          }
-
-          return arr
-      }
-
-      function question_register(q_id){
-          location.href = '/bbs/board/'+q_id+'/register/'
-      }
-
-      function question_register2(q_date){
-          location.href = '/bbs/board/'+q_date+'/register2/'
-      }
+            return arr
+        }
 
     </script>
 
@@ -77,133 +65,130 @@
 
 </head>
 <body>
-  <!-- 상단 navbar -->
-  <header>
-      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" aria-label="Eighth navbar example">
+<!-- 상단 navbar -->
+<header>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" aria-label="Eighth navbar example">
         <div class="container">
-          <a class="navbar-brand" href="/bbs/main/">Paple</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample07" aria-controls="navbarsExample07" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
+            <a class="navbar-brand" href="/bbs/main/">Paple</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample07" aria-controls="navbarsExample07" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-          <div class="collapse navbar-collapse " id="navbarsExample07">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item p-2">
-                <a class="nav-link" href="#">심리 테스트</a>
-              </li>
-              <li class="nav-item p-2">
-                <a class="nav-link" href="/bbs/board/">그룹 게시판</a>
-              </li>
-              <li class="nav-item p-2">
-                <a class="nav-link" href="#">그룹 설정하기</a>
-              </li>
-            </ul>
-              <button class="btn btn-danger btn-lg"
-                      type="button" onclick="modify()">Modify</button>
-              &nbsp
-              <button class="btn btn-danger btn-lg"
-                      type="submit" onclick="logout()">Logout</button>
-          </div>
+            <div class="collapse navbar-collapse " id="navbarsExample07">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item p-2">
+                        <a class="nav-link" href="/bbs/board/">그룹 게시판</a>
+                    </li>
+                    <li class="nav-item p-2">
+                        <a class="nav-link" href="/group/modify/">Group Info</a>
+                    </li>
+                    <li class="nav-item p-2">
+                        <a class="nav-link" href="/account/modify/">User Info</a>
+                    </li>
+                </ul>
+                <button class="btn btn-danger btn-lg"
+                        type="button" onclick="modify()">Modify</button>
+                &nbsp
+                <button class="btn btn-danger btn-lg"
+                        type="submit" onclick="logout()">Logout</button>
+            </div>
         </div>
-      </nav>
-  </header>
+    </nav>
+</header>
 
-  <!-- 그림 넣는 carousel 컴포넌트 -->
-  <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
+<!-- 그림 넣는 carousel 컴포넌트 -->
+<div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
     <ol class="carousel-indicators">
-      <li data-bs-target="#myCarousel" data-bs-slide-to="0" class="active"></li>
-      <li data-bs-target="#myCarousel" data-bs-slide-to="1"></li>
+        <li data-bs-target="#myCarousel" data-bs-slide-to="0" class="active"></li>
+        <li data-bs-target="#myCarousel" data-bs-slide-to="1"></li>
+        <li data-bs-target="#myCarousel" data-bs-slide-to="2"></li>
     </ol>
     <div class="carousel-inner">
-      <div class="carousel-item active">
-          <img src="/static/image/index.jpg" class="d-block w-100" alt="/static/image/index.jpg"/>
+        <div class="carousel-item active">
+            <img src="/static/image/sea.jpg" class="d-block w-100" alt="/static/image/sea.jpg"/>
 
-        <div class="container">
-          <div class="carousel-caption text-start">
-            <h1>오늘의 질문</h1>
-            {% if today_q %}
-                <p>{{ today_q }}</p>
-                <button class="btn btn-lg btn-primary" type="submit"
-                            onclick="question_register({{ today_q.q_id }})">답변 달러가기</button>
-            {% else %}
-                <p>오늘의 질문이 없습니다.</p>
-            {% endif %}
-          </div>
+            <div class="container">
+                <div class="carousel-caption text-start">
+                    <h1>Example headline.</h1>
+                    <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+                    <p><a class="btn btn-lg btn-primary" href="#" role="button">Sign up today</a></p>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="carousel-item">
-        <img src="/static/image/account.png" class="d-block w-100" alt="/static/image/account.png"/>
+        <div class="carousel-item">
+            <img src="/static/image/sea.jpg" class="d-block w-100" alt="/static/image/sea.jpg"/>
 
-        <div class="container">
-          <div class="carousel-caption">
-            <h1>올라온 질문</h1>
-            {% if posts %}
-                {% for post in posts %}
-                    <h2><a href="/bbs/board/{{ post.post_id }}/" class="mb-auto">{{ post.post_name }}</a></h2>
-                {% endfor %}
-            {% else %}
-                <p>올라온 질문이 없습니다.</p>
-            {% endif %}
-          </div>
+            <div class="container">
+                <div class="carousel-caption">
+                    <h1>Another example headline.</h1>
+                    <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+                    <p><a class="btn btn-lg btn-primary" href="#" role="button">Learn more</a></p>
+                </div>
+            </div>
         </div>
-      </div>
+        <div class="carousel-item">
+            <img src="/static/image/sea.jpg" class="d-block w-100" alt="/static/image/sea.jpg"/>
+
+            <div class="container">
+                <div class="carousel-caption text-end">
+                    <h1>One more for good measure.</h1>
+                    <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+                    <p><a class="btn btn-lg btn-primary" href="#" role="button">Browse gallery</a></p>
+                </div>
+            </div>
+        </div>
     </div>
     <a class="carousel-control-prev" href="#myCarousel" role="button" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Previous</span>
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
     </a>
     <a class="carousel-control-next" href="#myCarousel" role="button" data-bs-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Next</span>
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
     </a>
-  </div>
+</div>
 
-  <div class="container">
-      <!-- 오늘의 질문, 올라온 질문 box -->
-      <div class="row mb-2">
+<div class="container">
+    <!-- 오늘의 질문, 올라온 질문 box -->
+    <div class="row mb-2">
         <div class="col-md-6">
-          <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative"  style="height:100%">
-            <div class="col p-4 d-flex flex-column position-static">
-              <h2 class="mb-auto">오늘의 질문</h2>
-                {% if today_q %}
-                    <p class="card-text mb-auto">{{ today_q }}</p>
+            <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative"  style="height:100%">
+                <div class="col p-4 d-flex flex-column position-static">
+                    <h2 class="mb-auto">오늘의 질문</h2>
+                    {% if today_q %}
+                        <p class="card-text mb-auto">{{ today_q }}</p>
+                    {% else %}
+                        <p class="card-text mb-auto">오늘의 질문이 없습니다.</p>
+                    {% endif %}
                     <div class="container">
-                        <button class="btn btn-primary" type="submit"
-                                onclick="question_register({{ today_q.q_id}})">답변 달러가기</button>
+                        <button class="btn btn-primary" type="submit">답변 달러가기</button>
                     </div>
-                {% else %}
-                    <p class="card-text mb-auto">오늘의 질문이 없습니다.</p>
-                {% endif %}
+                </div>
             </div>
-          </div>
         </div>
         <div class="col-md-6">
-          <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative"  style="height:100%">
-            <div class="col p-4 d-flex flex-column position-static">
-              <h2 class="mb-auto">올라온 질문</h2>
-                {% if posts %}
+            <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative"  style="height:100%">
+                <div class="col p-4 d-flex flex-column position-static">
+                    <h2 class="mb-auto">올라온 질문</h2>
                     {% for post in posts %}
-                        <a href="/bbs/board/{{ post.post_id }}/" class="mb-auto">{{ post.post_name }}</a>
+                        <a href="#" class="mb-auto">{{ post.post_name }}</a>
                     {% endfor %}
-                {% else %}
-                    <p class="card-text mb-auto">올라온 질문이 없습니다.</p>
-                {% endif %}
+                </div>
             </div>
-          </div>
         </div>
-      </div>
+    </div>
 
-      <!-- calendar lib를 이용한 달력 -->
-      <div class="container" style="margin-top: 4rem">
+    <!-- calendar lib를 이용한 달력 -->
+    <div class="container" style="margin-top: 4rem">
         <div id='calendar'></div>
-      </div>
-  </div>
+    </div>
+</div>
 
-  <!-- FOOTER -->
-  <footer class="container" style="margin-top: 4rem">
+<!-- FOOTER -->
+<footer class="container" style="margin-top: 4rem">
     <p class="float-end"><a href="#">Back to top</a></p>
     <p>&copy; 인터페이스개발_프로젝트 4조 </p>
-  </footer>
+</footer>
 
 </body>
 </html>

@@ -69,8 +69,7 @@ class LogInForm(forms.ModelForm):
         }
 
 
-
-class ModifyInfoForm(forms.ModelForm):
+class ModifyUserInfoForm(forms.ModelForm):
     class Meta:
         model = Member
         fields = ['user_email', 'user_name', 'user_pw1', 'user_pw2', 'user_birth']
