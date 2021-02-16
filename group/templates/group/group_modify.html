@@ -2,8 +2,8 @@
 
 {% block container %}
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/static/css/owl.carousel.min.css">
-    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+{#    <link rel="stylesheet" href="/static/css/owl.carousel.min.css">#}
+{#    <link rel="stylesheet" href="/static/css/bootstrap.min.css">#}
     <link rel="stylesheet" href="/static/css/account.css">
     <script src="/static/js/accounts.js"></script>
 
@@ -15,10 +15,10 @@
                     <div class="col-md-7">
                         <h3><strong>Group Information</strong></h3>
                         <p class="mb-4"></p>
-                        <img src="/media/group_image/h4yfbrj.jpg">
                         <form method="post" href="{% url 'group:group_modify' %}" enctype="multipart/form-data">
                             {% csrf_token %}
                             {{ message }}
+{#                            <img src="{{ group.group_img.url }}" height="200" width="200">#}
                             {% for field in modify_form %}
                                 <div>
                                     {{ field.label }}<br>
@@ -31,10 +31,24 @@
                             <br>
                             {% for member in group_members %}
                                 <div>
-                                    <li>{{ member.user_name }} ({{ member.user_email }})</li>
-
+                                    <li>{{ member.user_name }} ({{ member.user_email }}) &nbsp
+                                        <button type="button" style="background-color: #e35052; border-color: #e35052; color: white"
+                                                class="btn-sm" onclick="group_del_member({{ member.user_id }})"> 삭제 </button>
+                                    </li>
+                                    <br>
                                 </div>
                             {% endfor %}
+
+                            {#                            <h4>Waiting member</h4>#}
+                            {#                            <br>#}
+                            {#                            {% for member in group_members %}#}
+                            {#                                <div>#}
+                            {#                                    <li>{{ member.user_name }} ({{ member.user_email }})</li>#}
+                            {#                                    <button type="submit" class="btn btn-sm" > 승인 </button>#}
+                            {##}
+                            {#                                </div>#}
+                            {#                            {% endfor %}#}
+
                             <br><br>
                             <button type="submit" class="btn btn-block btn-primary"> Modify </button>
                             <button type="button" class="btn btn-block btn-primary" onclick="main()"> Main </button>

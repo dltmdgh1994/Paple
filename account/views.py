@@ -1,5 +1,5 @@
 
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from .models import Member
 from .forms import MemberJoinForm, LogInForm, ModifyUserInfoForm
 
@@ -68,8 +68,13 @@ def signupdone(request):
 def modify(request):
     login_email = request.session['loginObj']
     if request.method == 'POST':
-        member = get_object_or_404(Member, pk=login_email)
+        member = Member.objects.get(user_email=login_email)
         modify_form = ModifyUserInfoForm(request.POST, instance=member)
+        if request.POST['user_pw1'] != request.POST['user_pw2']:
+            return render(request, 'account/modify_info.html', {
+                'message': '비밀번호가 일치하지 않습니다!',
+                'modify_form': modify_form
+            })
         if modify_form.is_valid():
             modify_form.save()
             return render(request, 'account/modify_info.html', {
@@ -83,7 +88,7 @@ def modify(request):
             })
 
     if request.method == 'GET':
-        member = get_object_or_404(Member, pk=login_email)
+        member = Member.objects.get(user_email=login_email)
         modify_form = ModifyUserInfoForm(instance=member)
         return render(request, 'account/modify_info.html', {'modify_form': modify_form})
 

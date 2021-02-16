@@ -18,7 +18,7 @@ def main(request):
         q_list = [q.as_dict() for q in questions]
 
         # 올라온 질문
-        member = get_object_or_404(Member, pk=user_email)
+        member = Member.objects.get(user_email=user_email)
         group_code = member.group_code
         posts = Post.objects.filter(group_code=group_code).order_by('-post_id')[0:2]
 
@@ -47,7 +47,7 @@ def logout(request):
 def board(request):
     # 해당 그룹의 게시판 글을 DB에서 불러옴
     user_email = request.session['loginObj']
-    member = get_object_or_404(Member, pk=user_email)
+    member = Member.objects.get(user_email=user_email)
     group_code = member.group_code
     posts = Post.objects.filter(group_code=group_code).order_by('-post_id')
 
@@ -66,7 +66,7 @@ def detail(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
 
     user_email = request.session['loginObj']
-    member = get_object_or_404(Member, pk=user_email)
+    member = Member.objects.get(user_email=user_email)
     group_code = member.group_code
     comments = Comment.objects.filter(group_code=group_code, post_id=post_id)
 
@@ -84,6 +84,7 @@ def post_register(request):
             user_email = request.session['loginObj']
             member = Member.objects.get(user_email=user_email)
             group_code = member.group_code
+            # member가 아닌 user_email인지 확인 필요
             post.user_email = member
             post.group_code = group_code
             post.post_date = datetime.datetime.now()

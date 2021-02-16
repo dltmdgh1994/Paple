@@ -44,7 +44,6 @@ def group_signin(request):
             form.save()
             
             # Member 정보 수정
-
             group = Group.objects.get(group_code=form.cleaned_data['group_code'])
             member.group_code = group
             member.user_status = True
@@ -52,9 +51,6 @@ def group_signin(request):
 
             return redirect('bbs:main')
     else:
-        # member.group_code = new_group.group_code
-        # member.user_status = True
-
         form = GroupForm(instance=new_group)
 
         return render(request, 'group/group_signin.html', {
@@ -65,7 +61,7 @@ def group_signin(request):
 
 def group_modify(request):
     login_email = request.session['loginObj']
-    member = get_object_or_404(Member, pk=login_email)
+    member = Member.objects.get(user_email=login_email)
     group = get_object_or_404(Group, pk=member.group_code)
     group_members = Member.objects.filter(group_code=member.group_code)
     modify_form = ModifyGroupInfoForm(instance=group)
@@ -107,3 +103,18 @@ def generate_random_slug_code(length=8):
     return base64.urlsafe_b64encode(
         codecs.encode(uuid.uuid4().bytes, "base64").rstrip()
     ).decode()[:length]
+
+
+def group_del_member(request, user_id):
+    member = Member.objects.get(user_id=user_id)
+    default_group = Group.objects.get(group_code='default')
+    member.group_code = default_group
+    member.user_status = False
+    member.save()
+
+    if member.user_email == request.session['loginObj']:
+        del (request.session['loginObj'])
+        return redirect('/')
+
+    return redirect('group:group_modify')
+

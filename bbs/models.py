@@ -17,7 +17,7 @@ class Question(models.Model):
 
 class Post(models.Model):
     post_id = models.BigAutoField(primary_key=True)
-    user_email = models.ForeignKey(Member, on_delete=models.CASCADE, db_column='user_email')
+    user_id = models.ForeignKey(Member, on_delete=models.CASCADE, db_column='user_id')
     group_code = models.ForeignKey(Group, on_delete=models.CASCADE, db_column='group_code')
     post_date = models.DateTimeField(auto_now_add=True)
     post_name = models.CharField(max_length=30)
@@ -29,7 +29,7 @@ class Post(models.Model):
 
 class Comment(models.Model):
     c_id = models.BigAutoField(primary_key=True)
-    user_email = models.ForeignKey(Member, on_delete=models.CASCADE, db_column='user_email')
+    user_id = models.ForeignKey(Member, on_delete=models.CASCADE, db_column='user_id')
     group_code = models.ForeignKey(Group, on_delete=models.CASCADE, db_column='group_code')
     post_id = models.ForeignKey(Post, on_delete=models.CASCADE, db_column='post_id')
     c_content = models.TextField()
