@@ -5,5 +5,7 @@ app_name = 'group'
 
 urlpatterns = [
     path('group_main/', views.group_main, name="group_main"),
-    path('modify/', views.group_modify, name="group_modify")
+    path('modify/', views.group_modify, name="group_modify"),
+    path('group_signin/', views.group_signin, name="group_signin"),
+    path('group_login/', views.group_login, name="group_login")
 ]

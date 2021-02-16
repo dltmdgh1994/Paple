@@ -1,14 +1,36 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from account.models import Member, Group
 from group.forms import ModifyGroupInfoForm
 
 
 def group_main(request):
+    return render(request, 'group/group_main.html')
 
-    return render(request, 'group/group_main.html', {
-        'page_title': 'Group_Main',
-        'user_data': '그룹 만들기'
-    })
+
+def group_login(request):
+    if request.method == "POST":
+
+        # 초대 코드를 통해 그룹 찾기
+        val = request.POST.get("invite_code")
+        try:
+            group = Group.objects.get(group_link=val)
+        except Group.DoesNotExist:
+            return render(request, 'group/group_main.html', {
+                'message': '초대 코드가 잘못됐습니다.'
+            })
+
+        user_email = request.session['loginObj']
+        member = Member.objects.get(user_email=user_email)
+        member.group_name = group.group_name
+        member.user_status = True
+        member.save()
+
+        return redirect('bbs:main')
+
+
+def group_signin(request):
+
+    return render(request, 'group/group_signin.html')
 
 
 def group_modify(request):
