@@ -28,10 +28,11 @@
                             {% endfor %}
 
                             <h4>Group member</h4>
+                            <br>
                             {% for member in group_members %}
                                 <div>
-                                    {{ member.user_name }}
-                                <br>
+                                    <li>{{ member.user_name }} ({{ member.user_email }})</li>
+
                                 </div>
                             {% endfor %}
                             <br><br>
