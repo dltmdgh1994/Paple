@@ -6,32 +6,36 @@ from .forms import PostForm
 import datetime
 
 
-
 def main(request):
     try:
         user_email = request.session['loginObj']
-        if user_email:
-            # 달력 질문 리스트
-            questions = Question.objects.all().order_by('q_date')
-            q_list = [q.as_dict() for q in questions]
-
-            # 올라온 질문
-            member = get_object_or_404(Member, pk=user_email)
-            group_name = member.group_name
-            posts = Post.objects.filter(group_name=group_name).order_by('-post_id')[0:2]
-
-            # # 오늘의 질문 (현재 없으면 에러)
-            # today_date = datetime.date.today().isoformat()
-            # today_q = Question.objects.get(q_date=today_date)
-
-            return render(request, 'bbs/main.html', {
-                'q_list': q_list,
-                'posts': posts
-            })
-        else:
-            return redirect('/')
-
     except:
+        return redirect('/')
+
+    if user_email:
+        # 달력 질문 리스트
+        questions = Question.objects.all().order_by('q_date')
+        q_list = [q.as_dict() for q in questions]
+
+        # 올라온 질문
+        member = get_object_or_404(Member, pk=user_email)
+        group_name = member.group_name
+        posts = Post.objects.filter(group_name=group_name).order_by('-post_id')[0:2]
+
+        # 오늘의 질문
+        today_date = datetime.date.today().isoformat()
+        try:
+            today_q = Question.objects.get(q_date=today_date)
+        except Question.DoesNotExist:
+            today_q = None
+
+        return render(request, 'bbs/main.html', {
+            'q_list': q_list,
+            'posts': posts,
+            'today_q': today_q,
+            'questions': questions
+        })
+    else:
         return redirect('/')
 
 
@@ -140,3 +144,56 @@ def comment_register(request, post_id):
         comment.save()
 
         return redirect('bbs:detail', post_id=post_id)
+
+
+def question_register(request, q_id):
+    question = Question.objects.get(q_id=q_id)
+
+    try:
+        post = Post.objects.get(post_name=question.q_content)
+    except Post.DoesNotExist:
+        post = None
+
+    if post is None:
+        post = Post()
+        user_email = request.session['loginObj']
+        member = Member.objects.get(user_email=user_email)
+        group_name = member.group_name
+        post.user_email = member
+        post.group_name = group_name
+        post.post_date = datetime.datetime.now()
+        post.post_name = question.q_content
+        post.post_content = " "
+        post.save()
+
+        return redirect('bbs:detail', post_id=post.post_id)
+    else:
+        return redirect('bbs:detail', post_id=post.post_id)
+
+
+def question_register2(request, q_date):
+    try:
+        question = Question.objects.get(q_date=q_date)
+    except Question.DoesNotExist:
+        return redirect('bbs:main')
+
+    try:
+        post = Post.objects.get(post_name=question.q_content)
+    except Post.DoesNotExist:
+        post = None
+
+    if post is None:
+        post = Post()
+        user_email = request.session['loginObj']
+        member = Member.objects.get(user_email=user_email)
+        group_name = member.group_name
+        post.user_email = member
+        post.group_name = group_name
+        post.post_date = datetime.datetime.now()
+        post.post_name = question.q_content
+        post.post_content = " "
+        post.save()
+
+        return redirect('bbs:detail', post_id=post.post_id)
+    else:
+        return redirect('bbs:detail', post_id=post.post_id)

@@ -11,5 +11,7 @@ urlpatterns = [
     path('board/<int:post_id>/comment/', views.comment_register, name='comment_register'),
     path('board/<int:post_id>/update/', views.post_update, name='post_update'),
     path('board/<int:post_id>/delete/', views.post_delete, name='post_delete'),
-    path('board/register/', views.post_register, name='post_register')
+    path('board/register/', views.post_register, name='post_register'),
+    path('board/<int:q_id>/register/', views.question_register, name='question_register'),
+    path('board/<str:q_date>/register2/', views.question_register2, name='question_register2')
 ]
