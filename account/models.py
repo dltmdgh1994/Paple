@@ -7,12 +7,12 @@ class Group(models.Model):
     group_code = models.CharField(max_length=20, default='default', primary_key=True)
 
     def __str__(self):
-        return self.group_code
+        return self.group_name
 
 
 class Member(models.Model):
     user_id = models.BigAutoField(primary_key=True)
-    user_email = models.EmailField(max_length=50)
+    user_email = models.EmailField(unique=True, max_length=50)
     group_code = models.ForeignKey(Group, on_delete=models.CASCADE, db_column='group_code', blank=True, null=True)
     user_name = models.CharField(max_length=20)
     user_pw1 = models.CharField(max_length=20)

@@ -94,7 +94,7 @@
                 {% for post in posts %}
                 <tr>
                     <td>{{ post.post_id }}</td>
-                    <td>{{ post.user_email }}</td>
+                    <td>{{ post.user_id.user_name }}</td>
                     <td id="td_name" style="cursor:pointer; width:40%;"
                         onclick="move_post({{ post.post_id }})">{{ post.post_name }}</td>
                     <td>{{ post.post_date }} </td>

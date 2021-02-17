@@ -79,7 +79,7 @@
                          style="margin-right: 1px; width: 15px; height: 15px"/>
           </div>
           <div style="margin-right: 5px">
-              <p class="blog-post-meta">{{ post.user_email }}</p>
+              <p class="blog-post-meta">{{ post.user_id.user_name }}</p>
           </div>
           <hr>
 
@@ -88,7 +88,7 @@
           <hr>
 
       </article>
-      {% if request.session.loginObj == post.user_email|stringformat:"s" %}
+      {% if request.session.loginObj == post.user_id.user_name|stringformat:"s" %}
           <button type="submit" class="btn btn-dark"
                   style="margin-right: 10px; float: left"
                   onclick="move_board()">게시판으로</button>
@@ -109,7 +109,7 @@
           {% if comments %}
               {% for comment in comments %}
                   <div class="card-body">
-                      <h5 class="mt-0">{{ comment.user_email }}</h5>
+                      <h5 class="mt-0">{{ comment.user_id.user_name }}</h5>
                       {{ comment.c_content|linebreaksbr }}
                   </div>
               {% endfor %}
