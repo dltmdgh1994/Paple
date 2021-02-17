@@ -199,26 +199,26 @@ When it's NOT activated, the fc-button classes won't even be in the DOM.
 .fc .fc-button-primary {
     color: #fff;
     color: var(--fc-button-text-color, #fff);
-    background-color: #2C3E50;
-    background-color: var(--fc-button-bg-color, #2C3E50);
-    border-color: #2C3E50;
-    border-color: var(--fc-button-border-color, #2C3E50);
+    background-color: tan;
+    background-color: var(--fc-button-bg-color, tan);
+    border-color: tan;
+    border-color: var(--fc-button-border-color, tan);
   }
 .fc .fc-button-primary:hover {
     color: #fff;
     color: var(--fc-button-text-color, #fff);
-    background-color: #1e2b37;
-    background-color: var(--fc-button-hover-bg-color, #1e2b37);
-    border-color: #1a252f;
-    border-color: var(--fc-button-hover-border-color, #1a252f);
+    background-color: saddlebrown;
+    background-color: var(--fc-button-hover-bg-color, saddlebrown);
+    border-color: saddlebrown;
+    border-color: var(--fc-button-hover-border-color, saddlebrown);
   }
 .fc .fc-button-primary:disabled { /* not DRY */
     color: #fff;
     color: var(--fc-button-text-color, #fff);
-    background-color: #2C3E50;
-    background-color: var(--fc-button-bg-color, #2C3E50);
-    border-color: #2C3E50;
-    border-color: var(--fc-button-border-color, #2C3E50); /* overrides :hover */
+    background-color: tan;
+    background-color: var(--fc-button-bg-color, tan);
+    border-color: tan;
+    border-color: var(--fc-button-border-color, tan); /* overrides :hover */
   }
 .fc .fc-button-primary:focus {
     box-shadow: 0 0 0 0.2rem rgba(76, 91, 106, 0.5);
@@ -433,6 +433,8 @@ When it's NOT activated, the fc-button classes won't even be in the DOM.
 .fc .fc-col-header-cell-cushion {
     display: inline-block; /* x-browser for when sticky (when multi-tier header) */
     padding: 2px 4px;
+    color: #1b1b1b;
+    text-decoration: none;
   }
 .fc .fc-bg-event,
   .fc .fc-non-business,
@@ -740,6 +742,8 @@ A HORIZONTAL event
     position: relative;
     z-index: 4;
     padding: 4px;
+    text-decoration: none;
+    color: black;
   }
 .fc {
 
@@ -872,6 +876,8 @@ A HORIZONTAL event
 .fc-daygrid-event { /* make root-level, because will be dragged-and-dropped outside of a component root */
   position: relative; /* for z-indexes assigned later */
   white-space: nowrap;
+  background-color: peru;
+  border-color: peru;
   border-radius: 3px; /* dot event needs this to when selected */
   font-size: .85em;
   font-size: var(--fc-small-font-size, .85em);
