@@ -22,11 +22,17 @@ class PreviewImageFileWidget(ClearableFileInput):
 
     def render(self, name, value, attrs=None, renderer=None):
         # 커스텀 위젯 템플릿으로 전달할 context를 만들어주고
-        context = {
-            'value': value,
-            'name': name,
-            'id': attrs['id']
-        }
+        if value is not None:
+            context = {
+                'value': value,
+                'name': name,
+                'id': attrs['id']
+            }
+        else:
+            context = {
+                'name': name,
+                'id': attrs['id']
+            }
 
         # render_to_string을 이용해 HTML코드와 context를 잘 버무려줍니다.
         html = render_to_string(
