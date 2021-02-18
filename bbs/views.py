@@ -1,5 +1,4 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from pyasn1_modules.rfc2459 import unique_postal_name
 
 from bbs.models import Question, Post, Comment
 from account.models import Group, Member
