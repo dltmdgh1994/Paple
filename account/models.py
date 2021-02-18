@@ -7,7 +7,7 @@ class Group(models.Model):
     group_code = models.CharField(max_length=20, default='default', primary_key=True)
 
     def __str__(self):
-        return self.group_name
+        return self.group_code
 
 
 class Member(models.Model):

@@ -1,4 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from pyasn1_modules.rfc2459 import unique_postal_name
+
 from bbs.models import Question, Post, Comment
 from account.models import Group, Member
 from django.core.paginator import Paginator
@@ -99,6 +101,30 @@ def post_register(request):
     })
 
 
+def post_register2(request, q_id):
+    if request.method == "POST":
+        form = PostForm(request.POST)
+        if form.is_valid():
+            post = form.save(commit=False)
+            user_email = request.session['loginObj']
+            member = Member.objects.get(user_email=user_email)
+            group_code = member.group_code
+
+            # member가 아닌 user_email인지 확인 필요
+            post.user_id = member
+            post.group_code = group_code
+            post.post_date = datetime.datetime.now()
+            post.save()
+            return redirect('bbs:board')
+    else:
+        question = Question.objects.get(q_id=q_id)
+        form = PostForm(initial={'post_name': question.q_content})
+
+    return render(request, 'bbs/post_register.html', {
+        'form': form
+    })
+
+
 def post_update(request, post_id):
     post = Post.objects.get(post_id=post_id)
 
@@ -156,18 +182,7 @@ def question_register(request, q_id):
         post = None
 
     if post is None:
-        post = Post()
-        user_email = request.session['loginObj']
-        member = Member.objects.get(user_email=user_email)
-        group_code = member.group_code
-        post.user_id = member
-        post.group_code = group_code
-        post.post_date = datetime.datetime.now()
-        post.post_name = question.q_content
-        post.post_content = " "
-        post.save()
-
-        return redirect('bbs:detail', post_id=post.post_id)
+        return redirect('bbs:post_register2', q_id=question.q_id)
     else:
         return redirect('bbs:detail', post_id=post.post_id)
 
@@ -184,17 +199,6 @@ def question_register2(request, q_date):
         post = None
 
     if post is None:
-        post = Post()
-        user_email = request.session['loginObj']
-        member = Member.objects.get(user_email=user_email)
-        group_code = member.group_code
-        post.user_id = member
-        post.group_code = group_code
-        post.post_date = datetime.datetime.now()
-        post.post_name = question.q_content
-        post.post_content = " "
-        post.save()
-
-        return redirect('bbs:detail', post_id=post.post_id)
+        return redirect('bbs:post_register2', q_id=question.q_id)
     else:
         return redirect('bbs:detail', post_id=post.post_id)

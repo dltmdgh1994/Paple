@@ -1,13 +1,15 @@
 from django import forms
 from account.models import Group
+from group.custom_widgets import PreviewImageFileWidget
 
 
 class ModifyGroupInfoForm(forms.ModelForm):
     class Meta:
         model = Group
-        fields = ['group_name', 'group_code']
+        fields = ['group_name', 'group_img', 'group_code']
         labels = {
             'group_name': 'Group Name',
+            'group_img': 'Group Image',
             'group_code': 'Group Code'
         }
         widgets = {
@@ -16,6 +18,7 @@ class ModifyGroupInfoForm(forms.ModelForm):
                     'class': 'form-control',
                 }
             ),
+            'group_img': PreviewImageFileWidget(),
             'group_code': forms.TextInput(
                 attrs={
                     'class': 'form-control',

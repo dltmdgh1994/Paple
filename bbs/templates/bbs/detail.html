@@ -86,7 +86,7 @@
           <hr>
 
       </article>
-      {% if request.session.loginObj == post.user_id.user_name|stringformat:"s" %}
+      {% if request.session.loginObj == post.user_id.user_email|stringformat:"s" %}
           <button type="submit" class="btn btn-dark"
                   style="margin-right: 10px; float: left"
                   onclick="move_board()">게시판으로</button>

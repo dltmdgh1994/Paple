@@ -77,13 +77,12 @@ def group_modify(request):
 
         modify_form = ModifyGroupInfoForm(request.POST, instance=group)
         if modify_form.is_valid():
-            modify_form.save()
-            return render(request, 'group/group_modify.html', {
-                'message': '그룹정보 update 완료!',
-                'group_members': group_members,
-                'group': group,
-                'modify_form': modify_form
-            })
+            group = modify_form.save(commit=False)
+            if request.POST.get('group_img', True):
+                group.group_img = request.FILES['group_img']
+            group.save()
+
+            return redirect('group:group_modify')
         else:
             return render(request, 'group/group_modify.html', {
                 'message': '그룹정보 update 실패',

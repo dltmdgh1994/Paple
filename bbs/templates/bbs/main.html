@@ -61,11 +61,19 @@
 
         function question_register(q_id){
           location.href = '/bbs/board/'+q_id+'/register/'
-      }
+        }
 
-      function question_register2(q_date){
-          location.href = '/bbs/board/'+q_date+'/register2/'
-      }
+        function question_register2(q_date){
+            let date = new Date(q_date)
+            let today = new Date() // 현재 시간
+
+            if(date > today.setDate(today.getDate()+1)){
+                alert("해당 날짜가 되지 않았습니다.")
+            }
+            else{
+                location.href = '/bbs/board/'+q_date+'/register2/'
+            }
+        }
 
     </script>
 
