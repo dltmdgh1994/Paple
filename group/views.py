@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from account.models import Member, Group
+from bbs.models import Post, Comment
 from group.forms import ModifyGroupInfoForm, GroupForm
 import uuid
 import base64
@@ -110,6 +111,14 @@ def group_del_member(request, user_id):
     member.group_code = default_group
     member.user_status = False
     member.save()
+
+    # 해당 유저의 게시글 전부 삭제
+    posts = Post.objects.filter(user_id=user_id)
+    posts.delete()
+    
+    # 해당 유저의 댓글 전부 삭제
+    comments = Comment.objects.filter(user_id=user_id)
+    comments.delete()
 
     if member.user_email == request.session['loginObj']:
         del (request.session['loginObj'])
