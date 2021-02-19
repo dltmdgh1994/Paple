@@ -175,8 +175,12 @@ def comment_register(request, post_id):
 def question_register(request, q_id):
     question = Question.objects.get(q_id=q_id)
 
+    user_email = request.session['loginObj']
+    member = Member.objects.get(user_email=user_email)
+    group_code = member.group_code
+
     try:
-        post = Post.objects.get(post_name=question.q_content)
+        post = Post.objects.get(post_name=question.q_content, group_code=group_code)
     except Post.DoesNotExist:
         post = None
 
@@ -192,8 +196,12 @@ def question_register2(request, q_date):
     except Question.DoesNotExist:
         return redirect('bbs:main')
 
+    user_email = request.session['loginObj']
+    member = Member.objects.get(user_email=user_email)
+    group_code = member.group_code
+
     try:
-        post = Post.objects.get(post_name=question.q_content)
+        post = Post.objects.get(post_name=question.q_content, group_code=group_code)
     except Post.DoesNotExist:
         post = None
 
