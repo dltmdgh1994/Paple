@@ -1,2 +1,2 @@
-superuser.txt
-*.sqllite3
+/superuser.txt
+*.sqlite3
